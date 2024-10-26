@@ -6,13 +6,45 @@
     <title>Lista Transakcji</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .transaction-buttons {
+            display: inline-flex;
+            gap: 10px; 
+        }
+
+        .transaction-button {
+            background: none; 
+            border: none; 
+            cursor: pointer; 
+        }
+
+        .transaction-button img {
+            width: 20px; 
+            height: 20px; 
+        }
+
+        .transaction-list {
+            list-style: none; 
+            padding: 0; 
+        }
+
+        .transaction-item {
+            display: flex; 
+            align-items: center; 
+            margin-bottom: 10px; 
+        }
+
+        .amount {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Lista Transakcji</h1>
         <a href="{% url 'index' %}" class="button">Powrót do strony głównej</a>
         <a href="{% url 'transakcja_add' %}" class="button">Dodaj nową transakcję</a>
-        
+
         <form method="GET">
             <label for="kategoria">Wybierz kategorię:</label>
             <select name="kategoria" id="kategoria">
@@ -25,15 +57,25 @@
             </select>
             <button type="submit">Filtruj</button>
         </form>
-        
+
         <ul class="transaction-list">
             {% for transakcja in transakcje %}
                 <li class="transaction-item">
                     <span title="{% if transakcja.opis %}{{ transakcja.opis }}{% endif %}">
                         {{ transakcja.typ }}: <span class="amount">{{ transakcja.kwota }} PLN</span>
                     </span>
-                    <a href="{% url 'transakcja_edit' transakcja.pk %}">Edytuj</a> 
-                    <a href="{% url 'transakcja_delete' transakcja.pk %}">Usuń</a>
+                    <div class="transaction-buttons">
+                        <button class="transaction-button" title="Edytuj">
+                            <a href="{% url 'transakcja_edit' transakcja.pk %}">
+                                <img src="{% static 'icons/icons8-edit-24.png' %}" alt="Edytuj">
+                            </a>
+                        </button>
+                        <button class="transaction-button" title="Usuń">
+                            <a href="{% url 'transakcja_delete' transakcja.pk %}">
+                                <img src="{% static 'icons/icons8-delete-30.png' %}" alt="Usuń">
+                            </a>
+                        </button>
+                    </div>
                 </li>
             {% endfor %}
         </ul>

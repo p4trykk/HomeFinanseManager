@@ -53,8 +53,22 @@ def raport(request):
     wydatki = Transakcja.objects.filter(kategoria__typ='Wydatek').aggregate(Sum('kwota'))['kwota__sum'] or 0
     bilans = przychody - wydatki
 
+    przychody_miesieczne = [
+        Transakcja.objects.filter(kategoria__typ='Przychód', data__month=i).aggregate(Sum('kwota'))['kwota__sum'] or 0
+        for i in range(1, 13)
+    ]
+    wydatki_miesieczne = [
+        Transakcja.objects.filter(kategoria__typ='Wydatek', data__month=i).aggregate(Sum('kwota'))['kwota__sum'] or 0
+        for i in range(1, 13)
+    ]
+
+    print("Przychody miesięczne:", przychody_miesieczne)  
+    print("Wydatki miesięczne:", wydatki_miesieczne)      
+
     return render(request, 'transakcje/raport.html', {
         'przychody': przychody,
         'wydatki': wydatki,
         'bilans': bilans,
+        'przychody_miesieczne': przychody_miesieczne,
+        'wydatki_miesieczne': wydatki_miesieczne
     })

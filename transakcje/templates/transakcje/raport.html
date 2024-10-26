@@ -6,18 +6,107 @@
     <title>Raport Finansowy</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .report-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .report-info {
+            flex: 1;
+        }
+        .chart-container {
+            flex: 1;
+            max-width: 600px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Raport Finansowy</h1>
-        
-        <div class="raport-section">
-            <p>Przychody: <span class="amount">{{ przychody }} PLN</span></p>
-            <p>Wydatki: <span class="amount">{{ wydatki }} PLN</span></p>
-            <p>Bilans: <span class="amount">{{ bilans }} PLN</span></p>
+        <p>Przychody: {{ przychody }} PLN</p>
+        <p>Wydatki: {{ wydatki }} PLN</p>
+        <p>Bilans: {{ bilans }} PLN</p>    
+        <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+            <div style="flex: 1; margin-right: 10px;">
+                <canvas id="financialChart" width="400" height="400"></canvas>
+            </div>
+            <div style="flex: 1; margin-left: 10px;">
+                <canvas id="pieChart" width="200" height="100"></canvas>
+            </div>
         </div>
-
         <a href="{% url 'index' %}" class="button">Powrót do strony głównej</a>
     </div>
+
+    <script>
+        const labels = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
+        
+        const incomeData = [{{ przychody_miesieczne|join:', ' }}];
+        const expenseData = [{{ wydatki_miesieczne|join:', ' }}];
+
+        const ctx = document.getElementById('financialChart').getContext('2d');
+        const financialChart = new Chart(ctx, {
+            type: 'bar', 
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Przychody',
+                        data: incomeData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    },
+                    {
+                        label: 'Wydatki',
+                        data: expenseData,
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            display: false
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        const ctxPie = document.getElementById('pieChart').getContext('2d');
+        const pieChart = new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: ['Przychody', 'Wydatki'],
+                datasets: [{
+                    data: [{{ przychody }}, {{ wydatki }}],
+                    backgroundColor: ['rgba(75, 192, 192, 0.6)', 'rgba(255, 99, 132, 0.6)'],
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw + ' PLN';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
