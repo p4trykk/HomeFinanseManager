@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Raport Finansowy</title>
+</head>
+<body>
+    <h1>Raport Finansowy</h1>
+    <p>Przychody: {{ przychody }} PLN</p>
+    <p>Wydatki: {{ wydatki }} PLN</p>
+    <p>Bilans: {{ bilans }} PLN</p>
+    <a href="{% url 'transakcje_list' %}">Powrót do listy transakcji</a>
+</body>
+</html>
+

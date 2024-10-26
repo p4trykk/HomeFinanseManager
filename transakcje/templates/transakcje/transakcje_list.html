@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista Transakcji</title>
+</head>
+<body>
+    <h1>Lista Transakcji</h1>
+    <form method="GET">
+        <label for="kategoria">Wybierz kategorię:</label>
+        <select name="kategoria" id="kategoria">
+            <option value="">Wszystkie</option>
+            {% for kategoria in kategorie %}
+                <option value="{{ kategoria.id }}"{% if kategoria.id|stringformat:"s" == request.GET.kategoria %} selected{% endif %}>
+                    {{ kategoria.nazwa }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Filtruj</button>
+    </form>
+    <a href="{% url 'transakcja_add' %}">Dodaj nową transakcję</a>
+    <ul>
+        {% for transakcja in transakcje %}
+            <li>
+                {{ transakcja.typ }}: {{ transakcja.kwota }} PLN
+                (<a href="{% url 'transakcja_edit' transakcja.pk %}">Edytuj</a> |
+                <a href="{% url 'transakcja_delete' transakcja.pk %}">Usuń</a>)
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

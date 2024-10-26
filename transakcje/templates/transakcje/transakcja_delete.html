@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usuń Transakcję</title>
+</head>
+<body>
+    <h1>Usuń Transakcję</h1>
+    <p>Czy na pewno chcesz usunąć transakcję "{{ transakcja.typ }}: {{ transakcja.kwota }} PLN"?</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Usuń</button>
+    </form>
+    <a href="{% url 'transakcje_list' %}">Powrót do listy</a>
+</body>
+</html>

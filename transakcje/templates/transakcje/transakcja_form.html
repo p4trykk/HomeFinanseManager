@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if form.instance.pk %}Edytuj{% else %}Dodaj{% endif %} Transakcję</title>
+</head>
+<body>
+    <h1>{% if form.instance.pk %}Edytuj{% else %}Dodaj{% endif %} Transakcję</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Zapisz</button>
+    </form>
+    <a href="{% url 'transakcje_list' %}">Powrót do listy</a>
+</body>
+</html>
