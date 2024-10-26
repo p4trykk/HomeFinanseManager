@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1, h2 {
+    color: #333;
+    text-align: left; /* Zmiana na wyrównanie do lewej */
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px 0;
+    background-color: #5cb85c;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.button:hover {
+    background-color: #4cae4c;
+}
+
+.raport-section {
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left; /* Zmiana na wyrównanie do lewej */
+}
+
+.transaction-list {
+    list-style-type: none; /* Usunięcie punktów z listy */
+    padding: 0; /* Usunięcie paddingu */
+}
+
+.transaction-item {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #e9ecef; /* Kolor tła dla elementów listy */
+    border-radius: 5px;
+    display: flex; /* Umożliwia lepsze rozmieszczenie elementów */
+    justify-content: space-between; /* Rozmieszczenie elementów w poziomie */
+    align-items: center; /* Wyrównanie do środka */
+}
+
+.amount {
+    font-weight: bold; /* Wyróżnienie kwoty */
+}

@@ -1,31 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista Transakcji</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <h1>Lista Transakcji</h1>
-    <form method="GET">
-        <label for="kategoria">Wybierz kategorię:</label>
-        <select name="kategoria" id="kategoria">
-            <option value="">Wszystkie</option>
-            {% for kategoria in kategorie %}
-                <option value="{{ kategoria.id }}"{% if kategoria.id|stringformat:"s" == request.GET.kategoria %} selected{% endif %}>
-                    {{ kategoria.nazwa }}
-                </option>
+    <div class="container">
+        <h1>Lista Transakcji</h1>
+        <a href="{% url 'index' %}" class="button">Powrót do strony głównej</a>
+        <a href="{% url 'transakcja_add' %}" class="button">Dodaj nową transakcję</a>
+        
+        <form method="GET">
+            <label for="kategoria">Wybierz kategorię:</label>
+            <select name="kategoria" id="kategoria">
+                <option value="">Wszystkie</option>
+                {% for kategoria in kategorie %}
+                    <option value="{{ kategoria.id }}"{% if kategoria.id|stringformat:"s" == request.GET.kategoria %} selected{% endif %}>
+                        {{ kategoria.nazwa }}
+                    </option>
+                {% endfor %}
+            </select>
+            <button type="submit">Filtruj</button>
+        </form>
+        
+        <ul class="transaction-list">
+            {% for transakcja in transakcje %}
+                <li class="transaction-item">
+                    <span title="{% if transakcja.opis %}{{ transakcja.opis }}{% endif %}">
+                        {{ transakcja.typ }}: <span class="amount">{{ transakcja.kwota }} PLN</span>
+                    </span>
+                    <a href="{% url 'transakcja_edit' transakcja.pk %}">Edytuj</a> 
+                    <a href="{% url 'transakcja_delete' transakcja.pk %}">Usuń</a>
+                </li>
             {% endfor %}
-        </select>
-        <button type="submit">Filtruj</button>
-    </form>
-    <a href="{% url 'transakcja_add' %}">Dodaj nową transakcję</a>
-    <ul>
-        {% for transakcja in transakcje %}
-            <li>
-                {{ transakcja.typ }}: {{ transakcja.kwota }} PLN
-                (<a href="{% url 'transakcja_edit' transakcja.pk %}">Edytuj</a> |
-                <a href="{% url 'transakcja_delete' transakcja.pk %}">Usuń</a>)
-            </li>
-        {% endfor %}
-    </ul>
+        </ul>
+    </div>
 </body>
 </html>

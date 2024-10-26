@@ -1,0 +1,20 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Strona główna</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Home Finanse Manager</h1>
+        <div class="buttons">
+            <a href="{% url 'transakcje_list' %}" class="button">Lista Transakcji</a>
+            <a href="{% url 'raport' %}" class="button">Raport Finansowy</a>
+        </div>
+    </div>
+</body>
+</html>

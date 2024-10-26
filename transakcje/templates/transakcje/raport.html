@@ -1,14 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Raport Finansowy</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <h1>Raport Finansowy</h1>
-    <p>Przychody: {{ przychody }} PLN</p>
-    <p>Wydatki: {{ wydatki }} PLN</p>
-    <p>Bilans: {{ bilans }} PLN</p>
-    <a href="{% url 'transakcje_list' %}">Powrót do listy transakcji</a>
+    <div class="container">
+        <h1>Raport Finansowy</h1>
+        
+        <div class="raport-section">
+            <p>Przychody: <span class="amount">{{ przychody }} PLN</span></p>
+            <p>Wydatki: <span class="amount">{{ wydatki }} PLN</span></p>
+            <p>Bilans: <span class="amount">{{ bilans }} PLN</span></p>
+        </div>
+
+        <a href="{% url 'index' %}" class="button">Powrót do strony głównej</a>
+    </div>
 </body>
 </html>
-

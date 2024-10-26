@@ -2,9 +2,11 @@ from django.db import models
 
 class Kategoria(models.Model):
     nazwa = models.CharField(max_length=100)
+    typ = models.CharField(max_length=50, choices=[('Przychód', 'Przychód'), ('Wydatek', 'Wydatek')])
+
 
     def __str__(self):
-        return self.nazwa
+        return f"{self.nazwa} ({self.typ})"
 
 class Transakcja(models.Model):
     typ = models.CharField(max_length=10)  # 'przychód' lub 'wydatek'

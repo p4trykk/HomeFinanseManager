@@ -1,6 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Transakcja, Kategoria
 from .forms import TransakcjaForm
+from django.shortcuts import render
+from django.db.models import Sum
+
+def index(request):
+    return render(request, 'index.html')
 
 def transakcje_list(request):
     kategoria_id = request.GET.get('kategoria')
@@ -44,10 +49,10 @@ def transakcja_delete(request, pk):
     return render(request, 'transakcje/transakcja_delete.html', {'transakcja': transakcja})
 
 def raport(request):
-    transakcje = Transakcja.objects.all()
-    przychody = sum(t.kwota for t in transakcje if t.typ == 'przychód')
-    wydatki = sum(t.kwota for t in transakcje if t.typ == 'wydatek')
+    przychody = Transakcja.objects.filter(kategoria__typ='Przychód').aggregate(Sum('kwota'))['kwota__sum'] or 0
+    wydatki = Transakcja.objects.filter(kategoria__typ='Wydatek').aggregate(Sum('kwota'))['kwota__sum'] or 0
     bilans = przychody - wydatki
+
     return render(request, 'transakcje/raport.html', {
         'przychody': przychody,
         'wydatki': wydatki,
